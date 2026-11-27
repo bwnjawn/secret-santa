@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getDb } from "@/db";
+import { getReadyDb } from "@/db";
 import { getParticipantWelcomeInfo } from "@/lib/event-service";
 import { RevealCard } from "@/components/RevealCard";
 
@@ -22,7 +22,7 @@ export default async function ParticipantPage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
-  const info = await getParticipantWelcomeInfo(getDb(), token);
+  const info = await getParticipantWelcomeInfo(await getReadyDb(), token);
 
   if (!info) {
     return (

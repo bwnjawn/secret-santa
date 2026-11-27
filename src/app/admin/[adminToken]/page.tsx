@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getDb } from "@/db";
+import { getReadyDb } from "@/db";
 import { getAdminDashboardData } from "@/lib/event-service";
 import { AdminDashboard } from "@/components/AdminDashboard";
 
@@ -17,7 +17,7 @@ export default async function AdminPage({
   params: Promise<{ adminToken: string }>;
 }) {
   const { adminToken } = await params;
-  const data = await getAdminDashboardData(getDb(), adminToken);
+  const data = await getAdminDashboardData(await getReadyDb(), adminToken);
 
   if (!data) {
     return (

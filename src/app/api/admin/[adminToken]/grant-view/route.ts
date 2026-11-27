@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/db";
+import { DatabaseConfigError, getReadyDb } from "@/db";
 import { grantExtraView } from "@/lib/event-service";
 
 export const dynamic = "force-dynamic";
@@ -21,13 +21,20 @@ export async function POST(
       );
     }
 
-    const result = await grantExtraView(getDb(), adminToken, participantId);
+    const result = await grantExtraView(
+      await getReadyDb(),
+      adminToken,
+      participantId
+    );
     if (!result.ok) {
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
 
     return NextResponse.json({ participant: result.participant });
   } catch (error) {
+    if (error instanceof DatabaseConfigError) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     console.error("Error al otorgar vista extra:", error);
     return NextResponse.json(
       { error: "No se pudo habilitar una vista adicional." },

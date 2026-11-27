@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/db";
+import { DatabaseConfigError, getReadyDb } from "@/db";
 import {
   createEventAndDraw,
   DrawImpossibleError,
@@ -11,19 +11,26 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const db = getDb();
+    const db = await getReadyDb();
     const result = await createEventAndDraw(db, body);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
     if (error instanceof ValidationError || error instanceof DrawImpossibleError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
+    if (error instanceof DatabaseConfigError) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: "Cuerpo JSON inválido." }, { status: 400 });
     }
     console.error("Error al crear evento:", error);
+    const detail =
+      error instanceof Error && "code" in error
+        ? ` (código: ${String((error as { code?: unknown }).code)})`
+        : "";
     return NextResponse.json(
-      { error: "Ocurrió un error al crear el sorteo." },
+      { error: `Ocurrió un error al conectar con la base de datos${detail}.` },
       { status: 500 }
     );
   }

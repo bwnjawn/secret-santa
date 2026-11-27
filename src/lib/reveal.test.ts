@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { Client } from "@libsql/client";
-import { createDatabase, type AppDatabase } from "@/db";
+import { createDatabase, ensureDatabaseSchema, type AppDatabase } from "@/db";
 import {
   createEventAndDraw,
   getAdminDashboardData,
@@ -10,37 +10,6 @@ import {
   ValidationError,
 } from "./event-service";
 
-async function setupSchema(client: Client) {
-  await client.executeMultiple(`
-    PRAGMA foreign_keys = ON;
-    CREATE TABLE events (
-      id TEXT PRIMARY KEY NOT NULL,
-      admin_token TEXT NOT NULL UNIQUE,
-      title TEXT NOT NULL,
-      organizer_name TEXT,
-      event_date TEXT,
-      budget TEXT,
-      created_at INTEGER NOT NULL
-    );
-    CREATE TABLE participants (
-      id TEXT PRIMARY KEY NOT NULL,
-      event_id TEXT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
-      name TEXT NOT NULL,
-      token TEXT NOT NULL UNIQUE,
-      target_id TEXT NOT NULL,
-      is_assisted INTEGER DEFAULT 0 NOT NULL,
-      remaining_views INTEGER DEFAULT 1 NOT NULL,
-      viewed_at INTEGER
-    );
-    CREATE TABLE exclusions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      event_id TEXT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
-      giver_id TEXT NOT NULL REFERENCES participants(id) ON DELETE CASCADE,
-      excluded_id TEXT NOT NULL REFERENCES participants(id) ON DELETE CASCADE
-    );
-  `);
-}
-
 describe("event-service flujo completo", () => {
   let client: Client;
   let db: AppDatabase;
@@ -49,7 +18,7 @@ describe("event-service flujo completo", () => {
     const conn = createDatabase(":memory:");
     client = conn.client;
     db = conn.db;
-    await setupSchema(client);
+    await ensureDatabaseSchema(client);
   });
 
   afterEach(() => {

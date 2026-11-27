@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/db";
+import { DatabaseConfigError, getReadyDb } from "@/db";
 import { revealParticipantTarget } from "@/lib/event-service";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export async function POST(
 ) {
   try {
     const { token } = await context.params;
-    const result = await revealParticipantTarget(getDb(), token);
+    const result = await revealParticipantTarget(await getReadyDb(), token);
 
     if (!result.ok) {
       return NextResponse.json(
@@ -21,6 +21,9 @@ export async function POST(
 
     return NextResponse.json(result.data);
   } catch (error) {
+    if (error instanceof DatabaseConfigError) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     console.error("Error al revelar amigo secreto:", error);
     return NextResponse.json(
       { error: "No se pudo consultar el resultado." },
