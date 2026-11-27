@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BookmarkCheck,
@@ -12,6 +12,7 @@ import {
   Copy,
   Eye,
   EyeOff,
+  MessageCircle,
   RefreshCw,
   RotateCcw,
   UserCheck,
@@ -26,22 +27,34 @@ interface AdminDashboardProps {
 
 export function AdminDashboard({ adminToken, initialData }: AdminDashboardProps) {
   const [participants, setParticipants] = useState(initialData.participants);
+  const [origin, setOrigin] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedAdmin, setCopiedAdmin] = useState(false);
   const [grantingId, setGrantingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   const viewedCount = participants.filter((p) => p.remainingViews === 0).length;
 
   function buildWhatsAppMessage(name: string, token: string): string {
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const url = `${origin}/v/${token}`;
+    const baseOrigin =
+      origin || (typeof window !== "undefined" ? window.location.origin : "");
+    const url = `${baseOrigin}/v/${token}`;
     return [
       `Hola ${name},`,
       `Ya está listo el sorteo de "${initialData.event.title}".`,
       `Entra a este enlace único para descubrir tu amigo secreto (solo tú puedes verlo):`,
       url,
     ].join("\n");
+  }
+
+  function buildWhatsAppUrl(name: string, token: string): string {
+    return `https://wa.me/?text=${encodeURIComponent(
+      buildWhatsAppMessage(name, token)
+    )}`;
   }
 
   async function copyWhatsAppInvite(id: string, name: string, token: string) {
@@ -246,20 +259,40 @@ export function AdminDashboard({ adminToken, initialData }: AdminDashboardProps)
                   </div>
 
                   <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                    <a
+                      href={origin ? buildWhatsAppUrl(p.name, p.token) : "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        if (!origin) {
+                          e.preventDefault();
+                          window.open(
+                            buildWhatsAppUrl(p.name, p.token),
+                            "_blank",
+                            "noopener,noreferrer"
+                          );
+                        }
+                      }}
+                      className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-800 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-900 sm:w-auto"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      <span>Enviar por WhatsApp</span>
+                    </a>
+
                     <button
                       type="button"
                       onClick={() => copyWhatsAppInvite(p.id, p.name, p.token)}
-                      className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-800 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-900 sm:w-auto"
+                      className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-stone-300 bg-white px-3.5 py-2.5 text-xs font-semibold text-stone-800 transition hover:bg-stone-100 sm:w-auto"
                     >
                       {copiedId === p.id ? (
                         <>
-                          <Check className="h-4 w-4" />
+                          <Check className="h-4 w-4 text-emerald-700" />
                           <span>Copiado</span>
                         </>
                       ) : (
                         <>
                           <Copy className="h-4 w-4" />
-                          <span>Copiar mensaje WhatsApp</span>
+                          <span>Copiar mensaje</span>
                         </>
                       )}
                     </button>
