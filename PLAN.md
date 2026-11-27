@@ -1,6 +1,6 @@
 # Plan de Implementación: Amigo Secreto Familiar (Vercel + Turso)
 
-> **Estado general:** En planificación / Pendiente de inicio  
+> **Estado general:** Implementado y verificado en local (listo para desplegar en Vercel + Turso)  
 > **Stack:** Next.js (App Router + TypeScript + Tailwind CSS) · Drizzle ORM · Turso (SQLite) · Vercel (Hobby)
 
 ---
@@ -8,33 +8,33 @@
 ## Seguimiento de Avance (Checklist)
 
 ### Fase 1 — Configuración Base y Base de Datos
-- [ ] Inicializar proyecto Next.js + Tailwind CSS + TypeScript (`package.json`)
-- [ ] Configurar `.env.example` y `drizzle.config.ts` (SQLite local `file:local.db` / Turso en producción)
-- [ ] Definir esquema de BD en `src/db/schema.ts` (`events`, `participants`, `exclusions`)
-- [ ] Crear cliente de BD en `src/db/index.ts`
+- [x] Inicializar proyecto Next.js + Tailwind CSS + TypeScript (`package.json`)
+- [x] Configurar `.env.example` y `drizzle.config.ts` (SQLite local `file:local.db` / Turso en producción)
+- [x] Definir esquema de BD en `src/db/schema.ts` (`events`, `participants`, `exclusions`)
+- [x] Crear cliente de BD en `src/db/index.ts`
 
 ### Fase 2 — Lógica de Sorteo y Seguridad
-- [ ] Implementar algoritmo de sorteo con exclusiones en `src/lib/draw.ts`
-- [ ] Implementar generación de tokens opacos en `src/lib/tokens.ts`
+- [x] Implementar algoritmo de sorteo con exclusiones en `src/lib/draw.ts`
+- [x] Implementar generación de tokens opacos en `src/lib/tokens.ts`
 
 ### Fase 3 — Endpoints API
-- [ ] `POST /api/events` (`src/app/api/events/route.ts`)
-- [ ] `GET /api/admin/[adminToken]` (`src/app/api/admin/[adminToken]/route.ts`) — proyección sin spoilers
-- [ ] `POST /api/admin/[adminToken]/grant-view` (`src/app/api/admin/[adminToken]/grant-view/route.ts`)
-- [ ] `POST /api/reveal/[token]` (`src/app/api/reveal/[token]/route.ts`) — consumo atómico
+- [x] `POST /api/events` (`src/app/api/events/route.ts`)
+- [x] `GET /api/admin/[adminToken]` (`src/app/api/admin/[adminToken]/route.ts`) — proyección sin spoilers
+- [x] `POST /api/admin/[adminToken]/grant-view` (`src/app/api/admin/[adminToken]/grant-view/route.ts`)
+- [x] `POST /api/reveal/[token]` (`src/app/api/reveal/[token]/route.ts`) — consumo atómico
 
 ### Fase 4 — Interfaz de Usuario
-- [ ] Layout global y metadata OpenGraph segura para WhatsApp (`src/app/layout.tsx`, `src/app/globals.css`)
-- [ ] Pantalla 1: Creación de evento (`src/app/page.tsx`, `src/components/CreateEventForm.tsx`)
-- [ ] Pantalla 2: Panel del organizador (`src/app/admin/[adminToken]/page.tsx`, `src/components/AdminDashboard.tsx`)
-- [ ] Pantalla 3: Vista del participante y Modo Asistido / Abuela (`src/app/v/[token]/page.tsx`, `src/components/RevealCard.tsx`)
+- [x] Layout global y metadata OpenGraph segura para WhatsApp (`src/app/layout.tsx`, `src/app/globals.css`)
+- [x] Pantalla 1: Creación de evento (`src/app/page.tsx`, `src/components/CreateEventForm.tsx`)
+- [x] Pantalla 2: Panel del organizador (`src/app/admin/[adminToken]/page.tsx`, `src/components/AdminDashboard.tsx`)
+- [x] Pantalla 3: Vista del participante y Modo Asistido / Abuela (`src/app/v/[token]/page.tsx`, `src/components/RevealCard.tsx`)
 
 ### Fase 5 — Pruebas y Despliegue
-- [ ] Tests unitarios del sorteo (`src/lib/draw.test.ts`)
-- [ ] Tests de integración de BD/revelado (`src/lib/reveal.test.ts`)
-- [ ] Verificación de tipos (`npx tsc --noEmit`) y build (`npm run build`)
-- [ ] Documentación de despliegue local y Vercel + Turso (`README.md`)
-- [ ] Prueba manual completa (flujo Abuela, bot WhatsApp, panel admin)
+- [x] Tests unitarios del sorteo (`src/lib/draw.test.ts`)
+- [x] Tests de integración de BD/revelado (`src/lib/reveal.test.ts`)
+- [x] Verificación de tipos (`npx tsc --noEmit`) y build (`npm run build`)
+- [x] Documentación de despliegue local y Vercel + Turso (`README.md`)
+- [x] Prueba E2E local completa (flujo Abuela, protección GET WhatsApp, panel admin sin spoilers)
 
 ---
 
