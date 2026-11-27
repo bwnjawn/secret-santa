@@ -24,10 +24,13 @@
 - [x] `POST /api/reveal/[token]` (`src/app/api/reveal/[token]/route.ts`) — consumo atómico
 
 ### Fase 4 — Interfaz de Usuario
-- [x] Layout global y metadata OpenGraph segura para WhatsApp (`src/app/layout.tsx`, `src/app/globals.css`)
-- [x] Pantalla 1: Creación de evento (`src/app/page.tsx`, `src/components/CreateEventForm.tsx`)
+- [x] Layout global, fondo geométrico (Uiverse `dangerous-panda-54`) y metadata OpenGraph segura para WhatsApp (`src/app/layout.tsx`, `src/app/globals.css`)
+- [x] Loader reutilizable (Uiverse `grumpy-turtle-41`) y transición global (`src/components/UiverseLoader.tsx`, `src/app/loading.tsx`)
+- [x] Pantalla 1: Creación de evento + botón de ejemplo familiar (`src/app/page.tsx`, `src/components/CreateEventForm.tsx`)
 - [x] Pantalla 2: Panel del organizador (`src/app/admin/[adminToken]/page.tsx`, `src/components/AdminDashboard.tsx`)
 - [x] Pantalla 3: Vista del participante y Modo Asistido / Abuela (`src/app/v/[token]/page.tsx`, `src/components/RevealCard.tsx`)
+- [x] Simulador interactivo de vista de participantes sin gastar links (`/demo`, `src/app/demo/page.tsx`, `src/components/DemoPreview.tsx`)
+- [x] Interfaz 100% con iconos importados (`lucide-react`), sin emojis, adaptable a cualquier dispositivo
 
 ### Fase 5 — Pruebas y Despliegue
 - [x] Tests unitarios del sorteo (`src/lib/draw.test.ts`)

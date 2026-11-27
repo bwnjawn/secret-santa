@@ -21,7 +21,7 @@ export default async function AdminPage({
 
   if (!data) {
     return (
-      <div className="rounded-2xl border border-stone-200 bg-white p-8 text-center shadow-sm">
+      <div className="rounded-3xl border border-stone-200 bg-white/95 p-8 text-center shadow-xl backdrop-blur-sm">
         <h1 className="text-xl font-bold text-stone-900">Sorteo no encontrado</h1>
         <p className="mt-2 text-sm text-stone-600">
           El enlace de administrador no es válido o fue eliminado.

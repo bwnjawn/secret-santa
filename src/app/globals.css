@@ -7,7 +7,173 @@
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #faf7f2;
+  background-color: #6b2e1b;
   color: #1c1917;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+From Uiverse.io by FColombati - https://uiverse.io/FColombati/dangerous-panda-54
+MIT License, Copyright (c) https://codepen.io/collection/OLkEMN?cursor=eyJwYWdlIjozfQ==, FColombati (Francesco Colombati)
+*/
+.uiverse-pattern-bg {
+  width: 100%;
+  height: 100%;
+  --u: 20px;
+  --hue: hue-rotate(0deg);
+  --c1: #92472f;
+  --c2: #d2562f;
+  --c3: #ffbc58;
+  --cs: #6b2e1b;
+  --gp: 50% / calc(var(--u) * 12) calc(var(--u) * 12.8);
+  filter: var(--hue);
+  background:
+    repeating-conic-gradient(
+        from 61.93deg at 75% 36.5%,
+        var(--c1) 0%,
+        var(--c1) 2%,
+        var(--cs) 16%,
+        #fff0 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from 118.07deg at 75% 87.5%,
+        var(--c3) 0% 34.5%,
+        #fff0 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from 118.07deg at 50% 75%,
+        #fff0 2%,
+        var(--cs) 17.15%,
+        #fff0 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from 61.93deg at 50% 50%,
+        var(--c3) 0% 15.59%,
+        var(--c2) 0% 32.79%,
+        #fff0 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from -118.07deg at 25% 12.5%,
+        var(--c2) 0% 32.79%,
+        var(--c1) 0% 50%,
+        #fff0 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from -61.93deg at 25% 87.5%,
+        #fff0 0 67.25%,
+        var(--c2) 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from -61.93deg at 50% 75%,
+        #fff0 0% 66.5%,
+        var(--c1) 0% 84.25%,
+        var(--c3) 0% 100%
+      )
+      var(--gp),
+    repeating-conic-gradient(
+        from -61.93deg at 25% 37.5%,
+        var(--c3) 0% 34.5%,
+        var(--c1) 0% 67.25%,
+        var(--c2) 0% 100%
+      )
+      var(--gp);
+}
+
+/*
+From Uiverse.io by mobinkakei - https://uiverse.io/mobinkakei/grumpy-turtle-41
+MIT License, Copyright (c) mobinkakei (Mobeen)
+*/
+.uiverse-loader-wrapper {
+  width: 200px;
+  height: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.uiverse-loader-circle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  left: 15%;
+  transform-origin: 50%;
+  animation: uiverse-circle7124 0.5s alternate infinite ease;
+}
+
+@keyframes uiverse-circle7124 {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.uiverse-loader-circle:nth-child(2) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.uiverse-loader-circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
+}
+
+.uiverse-loader-shadow {
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: uiverse-shadow046 0.5s alternate infinite ease;
+}
+
+@keyframes uiverse-shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
+}
+
+.uiverse-loader-shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.uiverse-loader-shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
 }
